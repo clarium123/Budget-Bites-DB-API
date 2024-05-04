@@ -1,0 +1,19 @@
+CREATE TABLE [dbo].[FoodPreference](
+	[FoodPreferID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NOT NULL,
+	[PreferredFood] [nvarchar](max) NOT NULL,
+ CONSTRAINT [PK_FoodPreference] PRIMARY KEY CLUSTERED 
+(
+	[FoodPreferID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[FoodPreference]  WITH CHECK ADD  CONSTRAINT [FK_FoodPreference_Persons] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Persons] ([PersonID])
+GO
+
+ALTER TABLE [dbo].[FoodPreference] CHECK CONSTRAINT [FK_FoodPreference_Persons]
+GO
+
+

@@ -1,0 +1,13 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+
+**/bin/*
+**/obj/*
+.vs/
+*.dbmdl
+*.jfm
+*.log
+*.json
+/BudgetBitesAPI/Properties/PublishProfiles

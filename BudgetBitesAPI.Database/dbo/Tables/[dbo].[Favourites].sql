@@ -1,0 +1,20 @@
+CREATE TABLE [dbo].[Favourites](
+	[FavouriteID] [int] IDENTITY(1,1) NOT NULL,
+	[PersonID] [int] NOT NULL,
+	[FavouriteDish] [nvarchar](255) NOT NULL,
+	[IsActive] [BIT] NULL,
+ CONSTRAINT [PK_Favourites] PRIMARY KEY CLUSTERED 
+(
+	[FavouriteID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[Favourites]  WITH CHECK ADD  CONSTRAINT [FK_Favourites_Persons] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Persons] ([PersonID])
+GO
+
+ALTER TABLE [dbo].[Favourites] CHECK CONSTRAINT [FK_Favourites_Persons]
+GO
+
+

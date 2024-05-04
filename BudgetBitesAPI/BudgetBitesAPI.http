@@ -1,0 +1,6 @@
+@BudgetBitesAPI_HostAddress = http://localhost:5227
+
+GET {{BudgetBitesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

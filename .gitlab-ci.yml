@@ -1,0 +1,4 @@
+include:
+  # - project: 'devops/gitlab_yamls'
+  #   file: 'budget-bites/budget-bites-api.gitlab-ci.yml'
+  - local: 'azure-cd.gitlab-ci.yml'
