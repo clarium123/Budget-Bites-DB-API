@@ -31,10 +31,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> GetAllLoginUsers()
         {
             var userDetailsList = await _userService.GetAllLoginUsers();
-            if (userDetailsList == null)
-            {
-                return NotFound();
-            }
             return Ok(userDetailsList);
         }
     }

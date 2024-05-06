@@ -10,7 +10,7 @@ namespace BudgetBitesAPI.Core.Models
         public List<MealDetails> MealListDetails { get; set; } = [];
         public DateTime? WeekStartDate { get; set; }
         public DateTime? WeekEndDate { get; set; }
-        public decimal TotalCost { get; set; } = 0;
+        public decimal TotalCost { get; set; } = 0;        
     }
 
     public class MealDetails

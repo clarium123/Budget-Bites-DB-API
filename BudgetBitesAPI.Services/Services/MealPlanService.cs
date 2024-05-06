@@ -90,6 +90,7 @@ namespace BudgetBitesAPI.Services.Services
                                 CuisineType = Convert.ToString(table1.Rows[k]["CuisineType"]),
                                 Serves = Convert.ToInt32(table1.Rows[k]["Serves"]),
                                 Cost = Convert.ToDecimal(table1.Rows[k]["Cost"]),
+                                ImageUrl = Convert.ToString(table1.Rows[k]["ImageUrl"])
                             }
                         };
                         dDetail.AddRange(mDish);
@@ -144,6 +145,7 @@ namespace BudgetBitesAPI.Services.Services
                 cmd.Parameters.AddWithValue("P_isFavorite", mealDetails.MealDishList[i].IsFavourite);
                 cmd.Parameters.AddWithValue("P_Serves", mealDetails.MealDishList[i].Serves);
                 cmd.Parameters.AddWithValue("P_TotalCost", mealDetails.MealDishList[i].Cost);
+                cmd.Parameters.AddWithValue("P_ImageUrl", mealDetails.MealDishList[i].ImageUrl);
                 SqlDataAdapter ada = new SqlDataAdapter(cmd);
                 ds = new DataSet();
                 ada.Fill(ds);
@@ -204,6 +206,7 @@ namespace BudgetBitesAPI.Services.Services
                                 CuisineType = Convert.ToString(table1.Rows[k]["CuisineType"]),
                                 Serves = Convert.ToInt32(table1.Rows[k]["Serves"]),
                                 Cost = Convert.ToDecimal(table1.Rows[k]["Cost"]),
+                                ImageUrl = Convert.ToString(table1.Rows[k]["ImageUrl"])
                             }
                         };
                         dDetail.AddRange(mDish);
@@ -309,6 +312,7 @@ namespace BudgetBitesAPI.Services.Services
                                 CuisineType = Convert.ToString(table1.Rows[k]["CuisineType"]),
                                 Serves = Convert.ToInt32(table1.Rows[k]["Serves"]),
                                 Cost = Convert.ToDecimal(table1.Rows[k]["Cost"]),
+                                ImageUrl = Convert.ToString(table1.Rows[k]["ImageUrl"])
                             }
                         };
                         dDetail.AddRange(mDish);

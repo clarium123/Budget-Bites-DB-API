@@ -19,10 +19,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> UserFavouriteFood(FavouriteModel favouriteDetails)
         {
             var favouritesList = await _favouriteService.UserFavouriteFood(favouriteDetails);
-            if (favouritesList.ToList().Count == 0)
-            {
-                return NotFound(favouritesList);
-            }
             return Ok(favouritesList);
         }
 
@@ -30,10 +26,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> AddUserFavourites(FavouriteModel favouriteDetails)
         {
             var favouritesList = await _favouriteService.SaveUserFavouriteFood(favouriteDetails);
-            if(favouritesList.ToList().Count == 0)
-            {
-                return NotFound(favouritesList);
-            }
             return Ok(favouritesList);
         }
     }

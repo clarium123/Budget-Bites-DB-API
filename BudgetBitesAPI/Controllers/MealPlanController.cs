@@ -19,10 +19,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> SaveUserMealPlan(MealDishModel mealPLanDetails)
         {
             var mealPlanList = await _mealPlanService.SaveUserMealPlan(mealPLanDetails);
-            if (mealPlanList.ToList().Count == 0)
-            {
-                return NotFound(mealPlanList);
-            }
             return Ok(mealPlanList);
         }
 
@@ -30,10 +26,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> UserMealPlanData(MealPlanModel mealPLanDetails)
         {
             var mealPlanList = await _mealPlanService.UserMealPlanDetails(mealPLanDetails);
-            if (mealPlanList.ToList().Count == 0)
-            {
-                return NotFound(mealPlanList);
-            }
             return Ok(mealPlanList);
         }
 
@@ -41,10 +33,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> DeleteUserMealPlan(DeleteDishModel mealPLanDetails)
         {
             var mealPlanList = await _mealPlanService.DeleteUserMealPlan(mealPLanDetails);
-            if (mealPlanList.ToList().Count == 0)
-            {
-                return NotFound(mealPlanList);
-            }
             return Ok(mealPlanList);
         }
     }

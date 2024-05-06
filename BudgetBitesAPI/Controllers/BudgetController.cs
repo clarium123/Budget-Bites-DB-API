@@ -18,10 +18,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> FetchUserBudget(BudgetModel budgetDetails)
         {
             var budgetList = await _budgetService.UserBudget(budgetDetails);
-            if (budgetList.ToList().Count == 0)
-            {
-                return NotFound(budgetList);
-            }
             return Ok(budgetList);
         }
 
@@ -29,10 +25,6 @@ namespace BudgetBitesAPI.Controllers
         public async Task<IActionResult> AddUserBudget(BudgetModel budgetDetails)
         {
             var budgetList = await _budgetService.SaveUserBudget(budgetDetails);
-            if (budgetList.ToList().Count == 0)
-            {
-                return NotFound(budgetList);
-            }
             return Ok(budgetList);
         }
     }

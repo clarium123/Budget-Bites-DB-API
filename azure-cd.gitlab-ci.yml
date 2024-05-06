@@ -1,28 +1,3 @@
-# stages:
-#   - build
-#   - deploy
-
-# variables:
-#   AZURE_WEBAPP_NAME: "your-app-name"  # Replace with your Azure App Service name
-#   AZURE_WEBAPP_RESOURCE_GROUP: "your-resource-group"  # Replace with your Azure resource group name
-#   AZURE_WEBAPP_SLOT_NAME: "production"  # Replace with your deployment slot name
-#   AZURE_CREDENTIALS: $AZURE_SERVICE_PRINCIPAL  # Azure Service Principal credential stored in GitLab CI/CD variable
-
-# build:
-#   stage: build
-#   image: node:latest
-#   script:
-#     - npm install
-#     - npm run build --prod
-
-# deploy:
-#   stage: deploy
-#   image: microsoft/azure-cli
-#   script:
-#     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
-#     - az webapp deployment slot swap --name $AZURE_WEBAPP_NAME --resource-group $AZURE_WEBAPP_RESOURCE_GROUP --slot $AZURE_WEBAPP_SLOT_NAME
-#   only:
-#     - master
 
 
 stages:
@@ -38,46 +13,58 @@ variables:
 
 build:
   stage: build
-  image: mcr.microsoft.com/dotnet/sdk:latest
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  tags:
+    - docker
   environment:
       name: dev
+  before_script:
+    - apt update -y && apt -y install zip
+    - curl -sL https://aka.ms/InstallAzureCLIDeb | bash    
+    - az login --service-principal -u $CLIENT_ID -p $SECRET_KEY --tenant $TENANT_ID
+    - az account set --subscription $CLARIUM_APP_DEV_APPLICATION_SUBSCRIPTION
   script:
     - cd BudgetBitesAPI/
     - dotnet restore
     - dotnet build
-    - dotnet publish -c Release -o ./budgetbitesapi.zip #/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:DesktopBuildPackageLocation="./budgetbitesapi.zip"
-    - ls
-    # - apt-get install zip -y
-    # - zip -r budgetbitesapi.zip publish/*
+    - dotnet publish -c Release -o ./budgetbitesapi
+    - cd ./budgetbitesapi
+    - zip -r ./budgetbitesapi.zip *
+  after_script:
+    - az webapp deploy --clean true --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME --src-path ./BudgetBitesAPI/budgetbitesapi/budgetbitesapi.zip --target-path /home/site/budgetbitesapi/
   artifacts:
     paths:
-      - BudgetBitesAPI/budgetbitesapi.zip
+      - BudgetBitesAPI/budgetbitesapi/budgetbitesapi.zip
   only:
     refs:
       - dev
     variables:
       - $TF_JOB_NAME == "bb"
 
-deploy:
-  stage: deploy
-  tags:
-    - shell
-  environment:
-      name: dev
-  dependencies:
-    - build  
-  before_script:
-    - az login --service-principal -u $CLIENT_ID -p $SECRET_KEY --tenant $TENANT_ID
-    - az account set --subscription $CLARIUM_APP_DEV_APPLICATION_SUBSCRIPTION
+# deploy:
+#   stage: deploy
+#   tags:
+#     - shell
+#   environment:
+#       name: dev
+#   dependencies:
+#     - build  
+#   before_script:
+#     - az login --service-principal -u $CLIENT_ID -p $SECRET_KEY --tenant $TENANT_ID
+#     - az account set --subscription $CLARIUM_APP_DEV_APPLICATION_SUBSCRIPTION
 
-  script:
-    - ls
-    - az webapp deployment source config-zip --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME --src BudgetBitesAPI/budgetbitesapi.zip --name /api
-    # - az webapp vnet-integration add --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME --vnet vnet-00-ext-app-ue-p --subnet default
-  after_script:
-    - az logout
-  only:
-    refs:
-      - dev
-    variables:
-      - $TF_JOB_NAME == "bb"
+#   script:
+#     - mkdir bb
+#     - cp -r $CI_PROJECT_DIR/BudgetBitesAPI/budgetbitesapi.zip bb/
+#     - cd $CI_PROJECT_DIR/
+#     - ls
+#     - cd BudgetBitesAPI/
+#     - ls
+#     - az webapp deploy --clean true --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME --src-path ./BudgetBitesAPI/budgetbitesapi.zip --target-path /home/site/wwwroot/api
+#   after_script:
+#     - az logout
+#   only:
+#     refs:
+#       - dev
+#     variables:
+#       - $TF_JOB_NAME == "bb"

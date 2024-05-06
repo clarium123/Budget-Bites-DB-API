@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[MealPlan](
 	[DishName] [nvarchar](255) NOT NULL,
 	[Serves] [int] NOT NULL,
 	[TotalCost] [decimal](18, 2) NOT NULL,
+	[ImageUrl] NVARCHAR(MAX) NULL
  CONSTRAINT [PK_MealPlan] PRIMARY KEY CLUSTERED 
 (
 	[MealPlanID] ASC
